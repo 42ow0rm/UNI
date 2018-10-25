@@ -13,11 +13,10 @@ mächtiger als STEIN. SCHERE zerschneidet PAPIER, d. h. SCHERE
 ist maechtiger als PAPIER
 
 */
-
-#include <cstdlib>
 #include <cstring>
-#include <ctime>
+#include <cstdlib>
 #include <iostream>
+#include <ctime>
 using namespace std;
 
 // Aufzählungstyp für Stein etc.
@@ -47,16 +46,9 @@ objectType randomChoice()
 {
 	int wahl;
 	objectType random_choice;
-	
-	//for random
-	timeb tb;
-	ftime(&tb);
-	int nCount = tb.millitm + (tb.time & 0xfffff) * 1000;
-	//cout << nCount % 50 << endl;
-	
-	for (int k = 0; k < (nCount % 50); k++) {
-		wahl = rand() % 3 + 1;;
-	}
+
+	srand(time(0));
+	wahl = rand() % 3 + 1;
 	
 	if (wahl == 1){
 		random_choice = SCHERE;		
@@ -154,9 +146,3 @@ int main()
 	showPlayer(player2);
 	showWinner(player1, player2);
 }
-
-
-
-
-
-

@@ -47,6 +47,8 @@ objectType randomChoice()
 {
 	int wahl;
 	objectType random_choice;
+	
+	//for random
 	timeb tb;
 	ftime(&tb);
 	int nCount = tb.millitm + (tb.time & 0xfffff) * 1000;
@@ -103,21 +105,23 @@ objectType enterChoice()
 		player_choice = SCHERE;
 	} else if (wahl == 3){
 		player_choice = PAPIER;	
-	} 
+	} else {
+		player_choice = randomChoice();
+	}
 	return player_choice;
 }
 
 // Die Wahl bestimmen, die gewonnen hat
 objectType winningObject(objectType obj1, objectType obj2)
 {
-	objectType winner;
+	objectType winner_obj;
 	if ((obj1 == SCHERE && obj2 == PAPIER) || (obj1 == STEIN && obj2 == SCHERE) || (obj1 == PAPIER && obj2 == STEIN)){
-		winner = obj1;	
+		winner_obj = obj1;	
 	} 	
 	if ((obj2 == SCHERE && obj1 == PAPIER) || (obj2 == STEIN && obj1 == SCHERE) || (obj2 == PAPIER && obj1 == STEIN)){
-		winner = obj2;	
+		winner_obj = obj2;	
 	} 	
-	return winner;
+	return winner_obj;
 }
 
 // Ausgeben, wer gewonnen hat
@@ -150,3 +154,9 @@ int main()
 	showPlayer(player2);
 	showWinner(player1, player2);
 }
+
+
+
+
+
+

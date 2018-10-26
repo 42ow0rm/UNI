@@ -1,5 +1,5 @@
 #!/bin/bash
-#v0.3
+#v0.4
 _timeStamp=1
 _pathToEmails='Beispielmails1/'
 _pathToStore='Mailarchive/'

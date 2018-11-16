@@ -12,7 +12,6 @@ class Polygonline {
 	public:
 		Polygonline();
 		Polygonline(const Point p);
-		Polygonline(int* points);
 		Polygonline(string str);
 	
 		Polygonline& addPoint(const Point p);

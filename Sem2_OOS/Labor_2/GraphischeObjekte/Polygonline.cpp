@@ -14,10 +14,6 @@ Polygonline::Polygonline(Point p){
 	addPoint(p);
 }
 
-Polygonline::Polygonline(int* points){
-
-}
-
 Polygonline& Polygonline::addPoint(Point p){
 	Points.push_back(p);
 	return *this;

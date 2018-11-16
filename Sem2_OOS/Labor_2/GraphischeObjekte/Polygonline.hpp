@@ -9,7 +9,6 @@ class Polygonline {
 	public:
 		Polygonline();
 		Polygonline(Point p);
-		Polygonline(int* points);
 	
 		Polygonline& addPoint(Point p);
 		void appendPolygonline(Polygonline pl);

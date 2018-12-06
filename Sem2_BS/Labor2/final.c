@@ -58,6 +58,7 @@ void printProcList(int max_length, int arr_proc[], int arr_pid[]){
 			printf("	[%d] ... %s	-	PID(%d) \n", (i+1), client, arr_pid[i]);
 		}
 	}
+	printf("	---\n	[99]... Alle beenden\n");	
 	printf("	---\n	[0] ... Zurueck zum Hauptprogramm\n");	
 }
 
@@ -91,6 +92,7 @@ int isFull(int max_length, int arr[]){
 	}
 	if(res == 1){
 		printf("\n\n---------------------------------------\nERR: Process list ist full\n---------------------------------------\n\n");
+        sleep(1);
 	}
 	return res;
 }
@@ -100,6 +102,15 @@ void initList(int max_length, int arr[]){
 	for (i; i < max_length; i++){
 		arr[i] = 0;
 	}
+}
+
+void killAll(int max_length, int arr_proc[], int arr_pid[]){
+    int i = 0;    
+    for(i; i<max_length; i++){
+        if(arr_proc[i] != 0 || arr_pid[i] != 0){           
+            kill(arr_pid[i], SIGQUIT);
+        }    
+    }
 }
 
 int MenuHandler(int i){
@@ -129,7 +140,7 @@ int MenuHandler(int i){
 				printf("\nBitte Zahl eingeben: ");
 				scanf("%u", &res);
 				printf("\n");			
-			}while(res < 0 || res > 20);
+			}while(res < 0 || res > 99);
 			break;	
 	
 		case(10): //Main menu **NUR**
@@ -196,7 +207,10 @@ int main(){
 			menu_id = 12;
 		}
 
-		if ((menu_id > 9 && menu_id != 99) || menu_id == 0){ //-----------------menu-client if			
+		if ((menu_id > 9 && menu_id != 99) || menu_id == 0){ //-----------------menu-client if	
+            if(menu_id == 0){
+                killAll(max_length, c_proc, c_pids);
+            }		
 			menu_id = MenuHandler(menu_id);	
 		}else{	// -------------------------------------------------------------start client if (else)
 			if (isFull(max_length, c_pids) == 0 || menu_id == 9){ //check queue if is full, or id=9 -> kill proc.
@@ -216,27 +230,36 @@ int main(){
 					clearScreen();
 					printProcList(max_length, c_proc, c_pids);
 					menu_id = MenuHandler(9);
-					if (menu_id != 0){ //id = 0 -> return to main menu
+
+                    //printf("\n%u\n", menu_id);
+					if (menu_id != 0 && menu_id != 99){ //id = 0 -> return to main menu
 						if(c_pids[menu_id-1] != 0){ // check user input to prevent seg. fault
-							kill(c_pids[menu_id-1], SIGQUIT); //kill child with sig kill
+							kill(c_pids[menu_id-1], SIGQUIT); //kill child with sig quit
 							c_pids[menu_id-1] = 0;	//free item on the list
 							c_proc[menu_id-1] = 0;	//free item on the list
-							//defragmentList(menu_id - 1, max_length, c_proc, c_pids); //kick all 0 (gaps) in the list
 					
 							printArray(max_length, c_pids);
 							//printArray(max_length, c_proc);
 						}
 						menu_id = 9;	//set menu_id to 9 (clients beenden)
-					} else {
+					} else if(menu_id == 99){ //fall kill all
+                        killAll(max_length, c_proc, c_pids);
+                        initList(max_length, c_pids); //set list to 0
+	                    initList(max_length, c_proc); //set list to 0
+                        clearScreen();
+						menu_id = 11;	//user will zuruck zu hauptmenu
+                    } else {
+                        clearScreen();
 						menu_id = 11;	//user will zuruck zu hauptmenu
 					}
 				}else{ 	//----------------------------------------------------------for illegal input exit
+                    killAll(max_length, c_proc, c_pids);
 					MenuHandler(menu_id);
 				}//-----------------------------------------------------------------end illegal input if
 			}else{ //if queue is full
 				clearScreen();
 				menu_id = 11; //nichts tun, zuruck auf hauptmenu
-		}
+	    	}
 		}//---------------------------------------------------------------------end menu-client if
 		
 

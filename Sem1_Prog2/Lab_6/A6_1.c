@@ -3,7 +3,7 @@
 int Eingabe(FILE *fptr) {
 	int num, isEndOfInput;
 	int Anzahl = 1;
-	fopen_s(&fptr, "C:\Users\w1nd0ws\Desktop\a.txt", "w");
+	fopen_s(&fptr, "C:\\Users\\w1nd0ws\\Desktop\\a.txt", "w");
 	if (fptr != NULL) {
 		printf("Datei wurde erfolgreich erstellt!\n\n");	
 	}else {
@@ -31,7 +31,7 @@ int Eingabe(FILE *fptr) {
 int Ausgabe(FILE *fptr) {
 	int num, i = 0;
 	float Durchschnitt = 0;
-	fopen_s(&fptr, "C:\Users\w1nd0ws\Desktop\a.txt", "r");
+	fopen_s(&fptr, "C:\\Users\\w1nd0ws\\Desktop\\a.txt", "r");
 	if (fptr != NULL) {									//Check ob Datei geöffnet wurde
 		printf("\nDatei wurde erfolgreich geoeffnet!\n\n");
 	}else {
